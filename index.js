@@ -40,7 +40,7 @@ async function run() {
     // Get The All Rooms Data From DB
     app.get('/rooms', async(req, res) => {
         const result = await roomsCollection.find().toArray();
-
+        res.send(result)
     })
 
     // Send a ping to confirm a successful connection
