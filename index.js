@@ -51,7 +51,7 @@ async function run() {
         const id = req.params.id
         const query = { _id: new ObjectId(id)};
         const result = await roomsCollection.findOne(query);
-       
+       res.send(result)
     })
 
     // Send a ping to confirm a successful connection
