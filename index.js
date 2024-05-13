@@ -38,7 +38,7 @@ async function run() {
   try {
 
     const roomsCollection = client.db('sakuNest').collection('rooms')
-
+    
 
     // Get The All Rooms Data From DB
     app.get('/rooms', async(req, res) => {
@@ -52,6 +52,12 @@ async function run() {
         const query = { _id: new ObjectId(id)};
         const result = await roomsCollection.findOne(query);
        res.send(result)
+    })
+
+    // Post a Review By a user
+    app.post('/reviews', async(req, res) => {
+      const review = req.body;
+      
     })
 
     // Send a ping to confirm a successful connection
