@@ -65,6 +65,21 @@ async function run() {
     });
 
 
+    app.post('/reviews', async (req, res) => {
+      const review = req.body;
+      
+      const result =  await reviewsCollection.insertOne(review);
+      const reviewRoomName = review.roomName
+      const reviewCount = await reviewsCollection.countDocuments( { roomName: reviewRoomName})
+      await roomsCollection.updateOne(
+        { roomName: reviewRoomName},
+        { $set: { reviewCount : reviewCount}}
+      )
+
+     res.send(result)
+    });
+
+
     app.post('/bookings', async (req, res) => {
       const booking = req.body;
       
