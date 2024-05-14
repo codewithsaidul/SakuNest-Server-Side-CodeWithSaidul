@@ -65,10 +65,19 @@ async function run() {
     });
 
 
-    app.post('/bookings', async(req, res) => {
-      const booking = req.body
+    app.post('/bookings', async (req, res) => {
+      const booking = req.body;
       
-    })
+      const result =  await bookingCollection.insertOne(booking);
+
+      await roomsCollection.updateOne(
+        { _id: new ObjectId(booking.roomId)},
+        { $set: { availability : false}}
+      )
+
+     res.send(result)
+    });
+    
 
 
     // Send a ping to confirm a successful connection
