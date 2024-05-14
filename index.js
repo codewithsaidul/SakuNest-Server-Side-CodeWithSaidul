@@ -103,9 +103,27 @@ async function run() {
 
 
     // Update Booking Status
-    app.patch('/bookings/:id', async (req, res) => {
+    app.patch('/bookRoom/:id', async (req, res) => {
       const id = req.params.id;
+      const status = req.body
+      const query = { _id: new ObjectId(id)}
+      const updateDoc = {
+        $set: status
+      }
+      const result = await bookingCollection.updateOne(query, updateDoc);
 
+      const cancelledBooking = await bookingCollection.findOne(query);
+      const roomId = cancelledBooking.roomId;
+
+
+      // Update Room Collection Availability
+      await roomsCollection.updateOne(
+        { _id: new ObjectId(roomId)},
+        { $set: { availability: true }}
+      )
+
+      res.send(result)
+      
     })
     
 
