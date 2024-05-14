@@ -58,6 +58,14 @@ async function run() {
       res.send(result);
     });
 
+
+    app.get('/bookings/:email', async (req, res) => {
+      const email = req.params.email
+      const query = { email }
+      const result = await bookingCollection.find(query).toArray();
+      res.send(result)
+    })
+
     app.get("/review", async (req, res) => {
       const query = { time: -1 };
       const result = await reviewsCollection.find().sort(query).toArray();
@@ -92,6 +100,13 @@ async function run() {
 
      res.send(result)
     });
+
+
+    // Update Booking Status
+    app.patch('/bookings/:id', async (req, res) => {
+      const id = req.params.id;
+
+    })
     
 
 
