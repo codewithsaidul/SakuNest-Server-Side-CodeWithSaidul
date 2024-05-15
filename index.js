@@ -47,7 +47,17 @@ async function run() {
 
 
     
+      app.get('/bookings', async(req, res) => {
+        const result = await bookingCollection.find().toArray()
+        res.send(result)
+      })
 
+      app.get('/booking/:id', async(req, res) => {
+        const id = req.params.id
+        const query = { _id: new ObjectId(id)};
+        const result = await bookingCollection.findOne(query);
+        res.send(result)
+      })
 
 
     // Get Single Room Data Using Id
@@ -100,6 +110,25 @@ async function run() {
 
      res.send(result)
     });
+
+
+
+    // Update Booking Status
+    app.patch('/bookinges/:id', async (req, res) => {
+      const id = req.params.id;
+      const booking = req.body
+      console.log(id, booking.bookingDate)
+      const query = { _id: new ObjectId(id)}
+      const updateDoc = {
+        $set: {
+          bookingDate: booking.bookingDate
+        }
+      }
+      const result = await bookingCollection.updateOne(query, updateDoc);
+
+      res.send(result)
+      
+    })
 
 
     // Update Booking Status
