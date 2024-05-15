@@ -9,8 +9,9 @@ const port = process.env.PORT || 5000;
 const corsOptions = {
   origin: [
     "http://localhost:5173",
-    "http://localhost:5174",
-    "https://solosphere.web.app",
+    "http://localhost:4173",
+    "https://6644ee033bda8d4dd374a833--melodic-fudge-eaf185.netlify.app",
+    "https://sakunest.netlify.app",
   ],
   credentials: true,
   optionSuccessStatus: 200,
@@ -34,12 +35,18 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
-    const database = client.db('sakuNest')
+   
     const roomsCollection = client.db("sakuNest").collection("rooms");
     const reviewsCollection = client.db("sakuNest").collection("reviews");
     const bookingCollection = client.db('sakuNest').collection('bookings')
+
+    
     // Get The All Rooms Data From DB
     app.get("/rooms", async (req, res) => {
+      const sort = req.query.sort;
+      console.log(sort)
+      // const options = {};
+      // if (sort) options = { sort: { pricePerNight: sort === 'asc' ? 1 : -1 } }
       const result = await roomsCollection.find().toArray();
       res.send(result);
     });
